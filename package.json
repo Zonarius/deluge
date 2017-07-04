@@ -1,11 +1,8 @@
 {
-  "name": "deluge",
+  "name": "deluge-promise",
   "version": "1.7.0",
   "description": "add magnet links and torrents to deluge",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ginman86/deluge.git"
@@ -15,19 +12,18 @@
     "deluge-webui",
     "torrent"
   ],
-  "author": "Greg Inman <ginman86@gmail.com> (https://github.com/ginman86)",
-  "contributors": [{
-    "name": "Antoine Aflalo",
-    "email": "antoineaf+npm@admincmd.com"
-  }],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ginman86/deluge/issues"
   },
   "dependencies": {
-    "restler": "git://github.com/ginman86/restler",
-    "valid-url": "1.0.x"
+    "restler": "git://github.com/ginman86/restler.git",
+    "valid-url": "^1.0.9"
   },
   "readmeFilename": "README.md",
-  "homepage": "https://github.com/ginman86/deluge"
+  "homepage": "https://github.com/ginman86/deluge",
+  "devDependencies": {
+    "typescript": "^2.4.1"
+  },
+  "types": "./model.d.ts"
 }

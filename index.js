@@ -4,6 +4,7 @@
     var path = require('path');
     var restler = require('restler');
     var validUrl = require('valid-url');
+    var util = require('util');
 
     var connected = false;
     var isAuthentificated = false;
@@ -25,65 +26,65 @@
              * @param dlPath
              * @param callback
              */
-            add: function (magnet, dlPath, callback) {
+            add: util.promisify(function (magnet, dlPath, callback) {
                 executeApiCall(function () {
                     add(magnet, dlPath, callback);
                 })
-            },
+            }),
             /**
              * Get the list of all the hosts that the WebUI can connect to
              * @param callback
              */
-            getHosts: function (callback) {
+            getHosts: util.promisify(function (callback) {
                 executeApiCall(function () {
                     getHostList(callback);
                 }, false)
-            },
+            }),
             /**
              * Connect the WebUI to the wanted daemon
              * @param hostID
              * @param callback
              */
-            connect: function (hostID, callback) {
+            connect: util.promisify(function (hostID, callback) {
                 executeApiCall(function () {
                     connectToDaemon(hostID, callback);
                 }, false)
-            },
+            }),
 
-            isConnected: function(callback) {
+            isConnected: util.promisify(function (callback) {
                 executeApiCall(function () {
                     isConnected(callback);
                 }, false)
-            },
+            }),
 
             /**
              * Set cookies in COOKIE_JAR, cookies is an object with urls as keys, example:
              * {'http://example.org/': 'uid=1234;pass=xxxx;'}
              * @object cookies
              */
-            setCookies: function (cookies, callback) {
+            setCookies: util.promisify(function (cookies, callback) {
                 setCookies(cookies, callback);
-            },
+            }),
 
             /**
              * Get the list of all torrents and changing data that represents their status in the WebUI
              * @param callback
              */
-            getTorrentRecord: function (callback) {
+            getTorrentRecord: util.promisify(function (callback) {
                 executeApiCall(function () {
                     getTorrentRecord(callback);
                 })
-            }
+            })
         }
     };
 
     function setCookies(cookies, callback) {
-        if(cookies !== null && typeof cookies === 'object'){
+        if (cookies !== null && typeof cookies === 'object') {
             console.log('Setting new cookies');
             COOKIE_JAR = cookies;
-            callback(null,true);
+            callback(null, true);
         } else {
-            callback(new Error('Invalid cookie format, should be an object. COOKIE_JAR not changed.'),false);
+            callback(new Error('Invalid cookie format, should be an object. COOKIE_JAR not changed.'), false);
         }
 
     }
@@ -196,7 +197,7 @@
     function downloadTorrentFile(url, cookie, callback) {
         post({
             method: 'web.download_torrent_from_url',
-            params: [url,cookie]
+            params: [url, cookie]
         }, callback);
     }
 
@@ -204,15 +205,15 @@
      * Search for a URL in the cookie jar.
      * @param url
      */
-    function searchCookieJar(url){
+    function searchCookieJar(url) {
         var cookie = '';
         for (var key in COOKIE_JAR) {
             // Check if url starts with key, see: http://stackoverflow.com/q/646628/2402914
             if (COOKIE_JAR.hasOwnProperty(key) && url.lastIndexOf(key, 0) === 0) {
                 cookie = COOKIE_JAR[key];
-                console.log("Using cookies for "+key);
+                console.log("Using cookies for " + key);
                 break;
-          }
+            }
         }
         return cookie;
     }
@@ -289,7 +290,7 @@
             }
             var hosts = [];
             result.forEach(function (element, index) {
-                hosts[index] = {id: element[0], ip: element[1], port: element[2], status: element[3]};
+                hosts[index] = { id: element[0], ip: element[1], port: element[2], status: element[3] };
             });
             callback(null, hosts);
         });

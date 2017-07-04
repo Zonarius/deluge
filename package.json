@@ -1,11 +1,11 @@
 {
   "name": "deluge-promise",
   "version": "1.7.0",
-  "description": "add magnet links and torrents to deluge",
+  "description": "Promise wrapper for deluge",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ginman86/deluge.git"
+    "url": "https://github.com/Zonarius/deluge-promise"
   },
   "keywords": [
     "deluge",
@@ -14,14 +14,13 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ginman86/deluge/issues"
+    "url": "https://github.com/Zonarius/deluge-promise/issues"
   },
   "dependencies": {
     "restler": "git://github.com/ginman86/restler.git",
     "valid-url": "^1.0.9"
   },
   "readmeFilename": "README.md",
-  "homepage": "https://github.com/ginman86/deluge",
   "devDependencies": {
     "typescript": "^2.4.1"
   },

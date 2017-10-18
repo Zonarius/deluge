@@ -23,12 +23,12 @@
             /**
              * Add the torrent to Deluge
              * @param magnet
-             * @param dlPath
+             * @param dlOptions
              * @param callback
              */
-            add: util.promisify(function (magnet, dlPath, callback) {
+            add: util.promisify(function (magnet, dlOptions, callback) {
                 executeApiCall(function () {
-                    add(magnet, dlPath, callback);
+                    add(magnet, dlOptions, callback);
                 })
             }),
             /**
@@ -218,22 +218,22 @@
         return cookie;
     }
 
-    function add(torrent, dlPath, callback) {
+    function add(torrent, dlOptions, callback) {
         if (validUrl.isWebUri(torrent)) {
             downloadTorrentFile(torrent, searchCookieJar(torrent), function (error, result) {
                 if (error) {
                     callback(error);
                     return;
                 }
-                addTorrent(result, dlPath, callback);
+                addTorrent(result, dlOptions, callback);
 
             })
         } else {
-            addTorrent(torrent, dlPath, callback);
+            addTorrent(torrent, dlOptions, callback);
         }
     }
 
-    function addTorrent(magnet, dlPath, callback) {
+    function addTorrent(magnet, dlOptions, callback) {
         console.log("Adding: " + magnet);
         post({
             method: 'web.add_torrents',
@@ -243,12 +243,12 @@
                     file_priorities: [],
                     add_paused: false,
                     compact_allocation: true,
-                    download_location: dlPath,
                     max_connections: -1,
                     max_download_speed: -1,
                     max_upload_slots: -1,
                     max_upload_speed: -1,
-                    prioritize_first_last_pieces: false
+                    prioritize_first_last_pieces: false,
+                    ...dlOptions
                 }
             }]]
         }, callback);

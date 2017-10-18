@@ -1,6 +1,6 @@
 {
   "name": "deluge-promise",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Promise wrapper for deluge",
   "main": "index.js",
   "repository": {

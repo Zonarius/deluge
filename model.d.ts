@@ -3,21 +3,21 @@ declare namespace createDeluge {
     /**
      * Adds a torrent by providing a magnet link. If successful, it will add and start downloading without further action.
      * @param magnet The magnet link
-     * @param dlPath Path on the server to download the file to
+     * @param dlOptions Download options
      */
-    add(magnet: string, dlPath: string): Promise<boolean>;
+    add(magnet: string, dlOptions: DownloadOptions): Promise<boolean>;
     /**
      * Adds a torrent by providing a file path on the server. If successful, it will add and start downloading without further action.
      * @param magnet The file path on the server
-     * @param dlPath Path on the server to download the file to
+     * @param dlOptions Download options
      */
-    add(file: string, dlPath: string): Promise<boolean>;
+    add(file: string, dlOptions: DownloadOptions): Promise<boolean>;
     /**
      * Adds a torrent by providing an URL to a torrent file. Deluge will download the file and start the download. If successful, it will add and start downloading without further action.
      * @param magnet The URL to the torrent file
-     * @param dlPath Path on the server to download the file to
+     * @param dlOptions Download options
      */
-    add(url: string, dlPath: string): Promise<boolean>;
+    add(url: string, dlOptions: DownloadOptions): Promise<boolean>;
     /**
      * Return the list of all the deluge daemon registered in the WebUI
      */
@@ -64,7 +64,7 @@ declare namespace createDeluge {
     status: 'Offline' | 'Online' | 'Connected';
   }
 
-  interface TorrentRecords {
+  export interface TorrentRecords {
     stats: Stats;
     connected: boolean;
     torrents: {
@@ -73,14 +73,14 @@ declare namespace createDeluge {
     filters: Filters;
   }
 
-  type Filter = 'All' | 'Downloading' | 'Seeding' | 'Active' | 'PausedQueued' | 'Checking' | 'Error';
+  export type Filter = 'All' | 'Downloading' | 'Seeding' | 'Active' | 'PausedQueued' | 'Checking' | 'Error';
 
-  interface Filters {
+  export interface Filters {
     state: Array<[Filter, number]>;
     'tracker_host': Array<[string, number]>;
   }
 
-  interface Torrent {
+  export interface Torrent {
     'max_download_speed': number;
     'upload_payload_rate': number;
     'download_payload_rate': number;
@@ -106,7 +106,7 @@ declare namespace createDeluge {
     eta: number;
   }
 
-  interface Stats {
+  export interface Stats {
     'upload_protocol_rate': number;
     'max_upload': number;
     'download_protocol_rate': number;
@@ -118,6 +118,20 @@ declare namespace createDeluge {
     'dht_nodes': number;
     'free_space': number;
     'max_num_connections': number;
+  }
+
+  export interface DownloadOptions {
+    download_location: string,
+    file_priorities?: number[],
+    add_paused?: boolean,
+    compact_allocation?: boolean,
+    move_completed?: boolean,
+    move_completed_path?: string,
+    max_connections?: number,
+    max_download_speed?: number,
+    max_upload_slots?: number,
+    max_upload_speed?: number,
+    prioritize_first_last_pieces?: boolean
   }
 }
 

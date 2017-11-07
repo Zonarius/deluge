@@ -5,6 +5,7 @@
     var restler = require('restler');
     var validUrl = require('valid-url');
     var util = require('util');
+    var debug = require('debug')('deluge-promise');
 
     var connected = false;
     var isAuthentificated = false;
@@ -80,7 +81,7 @@
 
     function setCookies(cookies, callback) {
         if (cookies !== null && typeof cookies === 'object') {
-            console.log('Setting new cookies');
+            debug('Setting new cookies');
             COOKIE_JAR = cookies;
             callback(null, true);
         } else {
@@ -94,7 +95,7 @@
             auth(function (err, result, response) {
                 if (!err) {
                     SESSION_COOKIE = getCookie(response.headers);
-                    console.log('Authenticate with deluge server...');
+                    debug('Authenticate with deluge server...');
                     isAuthentificated = true;
                 } else {
                     console.error('Problems connecting to deluge: ', err, response.error);
@@ -211,7 +212,7 @@
             // Check if url starts with key, see: http://stackoverflow.com/q/646628/2402914
             if (COOKIE_JAR.hasOwnProperty(key) && url.lastIndexOf(key, 0) === 0) {
                 cookie = COOKIE_JAR[key];
-                console.log("Using cookies for " + key);
+                debug("Using cookies for " + key);
                 break;
             }
         }
@@ -234,7 +235,7 @@
     }
 
     function addTorrent(magnet, dlOptions, callback) {
-        console.log("Adding: " + magnet);
+        debug("Adding: " + magnet);
         post({
             method: 'web.add_torrents',
             params: [[{
